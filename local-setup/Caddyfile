@@ -1,0 +1,27 @@
+# =============================================================
+# Caddyfile — Local Nextcloud Reverse Proxy
+# =============================================================
+# Caddy auto-generates a local TLS certificate.
+# Add your domain to /etc/hosts:
+#   127.0.0.1   nextcloud.local
+# =============================================================
+
+# Replace nextcloud.local with the value of NC_DOMAIN in your .env
+https://nextcloud.local {
+  # Forward all traffic to the AIO Apache container
+  reverse_proxy localhost:11000
+
+  # Increase timeouts for large file uploads
+  request_body {
+    max_size 16GB
+  }
+
+  # Required Nextcloud headers
+  header {
+    Strict-Transport-Security "max-age=15552000; includeSubDomains"
+  }
+
+  # Use a local self-signed certificate (Caddy handles this automatically
+  # with tls internal for local domains)
+  tls internal
+}

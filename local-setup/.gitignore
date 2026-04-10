@@ -1,0 +1,3 @@
+# Ignore the actual .env file (contains passwords)
+# Use .env.local as the template instead
+.env
